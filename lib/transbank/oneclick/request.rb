@@ -17,6 +17,8 @@ module Transbank
 
       def response
         @Response ||= begin
+          # Added to log request in order to send in webpay requested evidence of integration
+          print Hash.from_xml(xml.doc.to_xml)["Envelope"]["Body"]
           Response.new client.post(xml.canonicalize), action
         rescue match_class(rescue_exceptions) => error
           ExceptionResponse.new error, action
